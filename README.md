@@ -58,3 +58,44 @@ plt.plot(x_values2, y_values2)
 plt.grid()
 plt.show()
 ```
+
+## 7 номер
+### ***Ответ:*** -12.99731582x^2+26.23638547x-20.61582729
+![image](https://github.com/mak48/for_controlwork_plot/assets/132274048/71fc9f44-ec82-47db-94df-f3af5af17ded)
+
+### *Код*
+```
+from scipy.integrate import quad
+def f(x):
+    return -2*x**3 + 2*x**2 - 5*x - 5
+def g(x, a, b, c):
+    return a*x**2 + b*x + c
+def error(coeffs):
+    a, b, c = coeffs
+    error, _ = quad(lambda x: abs(f(x) - g(x, a, b, c)), 0, 5)
+    return error
+from scipy.optimize import minimize
+initial_guess = [0, 0, 0]
+result = minimize(error, initial_guess)
+print(result.x)
+```
+
+## 8 номер
+### ***Ответ:*** 2.82842712x^3+3x^2+3.16227766x+3.31662479
+![image](https://github.com/mak48/for_controlwork_plot/assets/132274048/76cc9be7-1843-42e9-945f-73862045d09d)
+
+### *Код*
+```
+import numpy as np
+from scipy.integrate import quad
+def f(x):
+    return np.sqrt(x+6)
+def error(coeffs):
+    h = np.poly1d(coeffs)
+    error, _ = quad(lambda x: (h(x)**2) / np.sqrt((1 - (2*x - 7)**2) / 9), 2, 5)
+    return error
+from scipy.optimize import minimize
+initial_guess = [f(x) for x in [2,3,4,5]]
+result = minimize(error, initial_guess)
+print(result.x)
+```
